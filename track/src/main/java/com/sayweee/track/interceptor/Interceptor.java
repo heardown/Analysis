@@ -1,5 +1,6 @@
-package com.sayweee.track;
+package com.sayweee.track.interceptor;
 
+import com.sayweee.track.platform.IPlatform;
 import com.sayweee.track.callback.InterceptorCallback;
 
 import java.util.Map;
@@ -21,7 +22,8 @@ public interface Interceptor {
      * @param params
      * @param callback
      */
-    void process(IPlatform platform, String eventName, Map<String, Object> params, InterceptorCallback callback);
+    void process(IPlatform platform, String eventName, Map<String, Object> params, boolean convert, InterceptorCallback callback);
+
 
     /**
      * 优先级  优先高优先级处理

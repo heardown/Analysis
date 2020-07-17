@@ -1,79 +1,81 @@
 package com.sayweee.track;
 
-import android.content.Context;
+import com.sayweee.track.core.PlatformConfig;
 
 /**
  * Author:  winds
  * Email:   heardown@163.com
  * Date:    20120/7/15.
- * Desc:
+ * Desc:    参数设置
  */
 public class TrackConfig {
-    private Context context;
     private String logFileName;
     private boolean logEnable;
     private String packageName;
 
     //appsFlyer
-    private String appsFlyerKey;
-    private boolean appsFlyerEnable;
-    private String appsFlyerLogFileName;
-    private boolean appsFlyerLogEnable;
-
+    private PlatformConfig appsFlyerConfig;
     //facebook
-    private boolean  facebookEnable;
-    private String facebookLogFileName;
-    private boolean facebookLogEnable;
-
+    private PlatformConfig facebookConfig;
     //google firebase
-    private boolean googleEnable;
-    private String googleLogFileName;
-    private boolean googleLogEnable;
+    private PlatformConfig googleConfig;
+    //weee
+    private PlatformConfig weeeConfig;
 
     public TrackConfig(Builder builder) {
-        this.context = builder.context;
-        this.logFileName = builder.logFileName;
         this.logEnable = builder.logEnable;
+        this.logFileName = builder.logFileName;
         this.packageName = builder.packageName;
 
-        this.appsFlyerKey = builder.appsFlyerKey;
-        this.appsFlyerEnable = builder.appsFlyerEnable;
-        this.appsFlyerLogFileName = builder.appsFlyerLogFileName;
-        this.appsFlyerLogEnable = builder.appsFlyerLogEnable;
+        this.appsFlyerConfig = builder.appsFlyerConfig;
+        this.googleConfig = builder.googleConfig;
+        this.facebookConfig = builder.facebookConfig;
+        this.weeeConfig = builder.weeeConfig;
+    }
 
-        this.facebookEnable = builder.facebookEnable;
-        this.facebookLogFileName = builder.facebookLogFileName;
-        this.facebookLogEnable = builder.facebookLogEnable;
+    public String getLogFileName() {
+        return logFileName;
+    }
 
-        this.googleEnable = builder.googleEnable;
-        this.googleLogFileName = builder.googleLogFileName;
-        this.googleLogEnable = builder.googleLogEnable;
+    public boolean isLogEnable() {
+        return logEnable;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public PlatformConfig getAppsFlyerConfig() {
+        return appsFlyerConfig;
+    }
+
+    public PlatformConfig getFacebookConfig() {
+        return facebookConfig;
+    }
+
+    public PlatformConfig getGoogleConfig() {
+        return googleConfig;
+    }
+
+    public PlatformConfig getWeeeConfig() {
+        return weeeConfig;
     }
 
     public static class Builder {
-        private Context context;
         private String logFileName;
         private boolean logEnable;
         private String packageName;
 
         //appsFlyer
-        private String appsFlyerKey;
-        private boolean appsFlyerEnable;
-        private String appsFlyerLogFileName;
-        private boolean appsFlyerLogEnable;
-
+        private AppsFlyerConfig appsFlyerConfig;
         //facebook
-        private boolean  facebookEnable;
-        private String facebookLogFileName;
-        private boolean facebookLogEnable;
-
+        private FacebookConfig facebookConfig;
         //google firebase
-        private boolean googleEnable;
-        private String googleLogFileName;
-        private boolean googleLogEnable;
+        private GoogleConfig googleConfig;
+        //weee
+        private WeeeConfig weeeConfig;
 
-        public Builder(Context context) {
-            this.context = context;
+        public Builder() {
         }
 
         public Builder setPackageName(String packageName) {
@@ -82,36 +84,60 @@ public class TrackConfig {
         }
 
         public Builder appsFlyer(String appsFlyerKey, boolean appsFlyerEnable) {
-            this.appsFlyerKey = appsFlyerKey;
-            this.appsFlyerEnable = appsFlyerEnable;
+            if(appsFlyerConfig == null) {
+                appsFlyerConfig = new AppsFlyerConfig();
+            }
+            appsFlyerConfig.appsFlyerKey = appsFlyerKey;
+            appsFlyerConfig.appsFlyerEnable = appsFlyerEnable;
+            return this;
+        }
+
+        public Builder appsFlyer(AppsFlyerConfig appsFlyerConfig) {
+            this.appsFlyerConfig = appsFlyerConfig;
             return this;
         }
 
         public Builder setAppsFlyerExtra(String logFileName, boolean logEnable) {
-            this.appsFlyerLogFileName = logFileName;
-            this.appsFlyerLogEnable = logEnable;
+            if(appsFlyerConfig == null) {
+                appsFlyerConfig = new AppsFlyerConfig();
+            }
+            appsFlyerConfig.appsFlyerLogFileName = logFileName;
+            appsFlyerConfig.appsFlyerLogEnable = logEnable;
             return this;
         }
 
         public Builder facebook(boolean facebookEnable) {
-            this.facebookEnable = facebookEnable;
+            if(facebookConfig == null) {
+                facebookConfig = new FacebookConfig();
+            }
+            facebookConfig.facebookEnable = facebookEnable;
             return this;
         }
 
+
         public Builder setFacebookExtra(String logFileName, boolean logEnable) {
-            this.facebookLogFileName = logFileName;
-            this.facebookLogEnable = logEnable;
+            if(facebookConfig == null) {
+                facebookConfig = new FacebookConfig();
+            }
+            facebookConfig.facebookLogFileName = logFileName;
+            facebookConfig.facebookLogEnable = logEnable;
             return this;
         }
 
         public Builder setGoogleExtra(String logFileName, boolean logEnable) {
-            this.googleLogFileName = logFileName;
-            this.googleLogEnable = logEnable;
+            if(googleConfig == null) {
+                googleConfig = new GoogleConfig();
+            }
+            googleConfig.googleLogFileName = logFileName;
+            googleConfig.googleLogEnable = logEnable;
             return this;
         }
 
         public Builder google(boolean googleEnable) {
-            this.googleEnable = googleEnable;
+            if(googleConfig == null) {
+                googleConfig = new GoogleConfig();
+            }
+            googleConfig.googleEnable = googleEnable;
             return this;
         }
 
@@ -128,5 +154,68 @@ public class TrackConfig {
         public TrackConfig build() {
             return new TrackConfig(this);
         }
+    }
+
+    public static class AppsFlyerConfig implements PlatformConfig{
+        public String appsFlyerKey;
+        public boolean appsFlyerEnable;
+        public String appsFlyerLogFileName;
+        public boolean appsFlyerLogEnable;
+
+        public AppsFlyerConfig() {
+
+        }
+
+        public AppsFlyerConfig(String appsFlyerKey) {
+            this.appsFlyerKey = appsFlyerKey;
+        }
+
+        public AppsFlyerConfig(String appsFlyerKey, boolean appsFlyerEnable) {
+            this.appsFlyerKey = appsFlyerKey;
+            this.appsFlyerEnable = appsFlyerEnable;
+        }
+
+        public AppsFlyerConfig(String appsFlyerKey, boolean appsFlyerEnable, String appsFlyerLogFileName, boolean appsFlyerLogEnable) {
+            this.appsFlyerKey = appsFlyerKey;
+            this.appsFlyerEnable = appsFlyerEnable;
+            this.appsFlyerLogFileName = appsFlyerLogFileName;
+            this.appsFlyerLogEnable = appsFlyerLogEnable;
+        }
+    }
+
+    public static class GoogleConfig implements PlatformConfig{
+        public boolean googleEnable;
+        public String googleLogFileName;
+        public boolean googleLogEnable;
+
+        public GoogleConfig(){
+
+        }
+
+        public GoogleConfig(boolean googleEnable, String googleLogFileName, boolean googleLogEnable) {
+            this.googleEnable = googleEnable;
+            this.googleLogFileName = googleLogFileName;
+            this.googleLogEnable = googleLogEnable;
+        }
+    }
+
+    public static class FacebookConfig implements PlatformConfig{
+        public boolean  facebookEnable;
+        public String facebookLogFileName;
+        public boolean facebookLogEnable;
+
+        public FacebookConfig() {
+
+        }
+
+        public FacebookConfig(boolean facebookEnable, String facebookLogFileName, boolean facebookLogEnable) {
+            this.facebookEnable = facebookEnable;
+            this.facebookLogFileName = facebookLogFileName;
+            this.facebookLogEnable = facebookLogEnable;
+        }
+    }
+
+    public static class WeeeConfig implements PlatformConfig{
+
     }
 }

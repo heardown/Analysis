@@ -1,7 +1,4 @@
-package com.sayweee.track.platform;
-
-import com.sayweee.track.IPlatform;
-import com.sayweee.track.convert.IConverter;
+package com.sayweee.track.convert;
 
 import java.util.Map;
 
@@ -11,21 +8,21 @@ import java.util.Map;
  * Date:    20120/7/16.
  * Desc:
  */
-public class AppsFlyerConverter implements IConverter {
+public class GoogleConverter implements IConverter {
 
     @Override
     public String convertEvent(String eventName) {
-        return null;
+        return eventName;
     }
 
     @Override
     public Map<String, Object> convertParameter(Map<String, Object> params) {
-        return null;
+        return params;
     }
 
     @Override
     public String convertParameter(String parameter) {
-        return null;
+        return parameter;
     }
 
 }

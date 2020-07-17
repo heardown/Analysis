@@ -4,9 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.sayweee.track.Interceptor;
-import com.sayweee.track.IPlatform;
+import com.sayweee.track.convert.GoogleConverter;
 import com.sayweee.track.convert.IConverter;
+import com.sayweee.track.model.EventModel;
+import com.sayweee.track.core.PlatformConfig;
 import com.sayweee.track.utils.Utils;
 
 import java.util.Map;
@@ -20,32 +21,64 @@ import java.util.Map;
 public class GooglePlatform implements IPlatform {
 
     private Context context;
-    private static GooglePlatform platform = new GooglePlatform();
+    private boolean enable;
+    private String logFileName;
+    private boolean logEnable;
+    private GoogleConverter converter;
 
     public static GooglePlatform get() {
-        return platform;
+        return Builder.platform;
+    }
+
+    private static class Builder{
+        private final static GooglePlatform platform = new GooglePlatform();
+    }
+
+    public IPlatform init(PlatformConfig config) {
+
+        return this;
     }
 
     @Override
-    public void attach(Context context) {
+    public IPlatform attach(Context context) {
         this.context = context;
+        this.converter = new GoogleConverter();
+        return this;
     }
 
     @Override
-    public void enable(boolean enable) {
-
+    public IPlatform enable(boolean enable) {
+        this.enable = enable;
+        return this;
     }
 
     @Override
-    public void logConfig(String logFileName, boolean logEnable) {
-
+    public IPlatform logConfig(String logFileName, boolean logEnable) {
+        this.logFileName = logFileName;
+        this.logEnable = logEnable;
+        return this;
     }
-
 
     @Override
-    public void convert(IConverter convert) {
-
+    public IPlatform customConverter(IConverter converter) {
+        return this;
     }
+
+    @Override
+    public EventModel convert(String eventName, Map<String, Object> params) {
+        return new EventModel(this, converter.convertEvent(eventName), converter.convertParameter(params));
+    }
+
+    @Override
+    public EventModel convert(String eventName, String json) {
+        return convert(eventName, Utils.convertMap(json));
+    }
+
+    @Override
+    public int platformCode() {
+        return 0;
+    }
+
 
     @Override
     public void startTrack() {

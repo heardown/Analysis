@@ -2,9 +2,12 @@ package com.sayweee.track.platform;
 
 import android.content.Context;
 
-import com.sayweee.track.Interceptor;
-import com.sayweee.track.IPlatform;
 import com.sayweee.track.convert.IConverter;
+import com.sayweee.track.convert.WeeeConverter;
+import com.sayweee.track.model.EventModel;
+import com.sayweee.track.core.PlatformConfig;
+import com.sayweee.track.TrackConfig;
+import com.sayweee.track.utils.Utils;
 
 import java.util.Map;
 
@@ -16,25 +19,54 @@ import java.util.Map;
  */
 public class WeeePlatform implements IPlatform {
 
-    @Override
-    public void attach(Context context) {
+    private IConverter converter;
 
+    public static WeeePlatform get(){
+        return Builder.platform;
+    }
+
+    private static class Builder{
+        final static WeeePlatform platform = new WeeePlatform();
+    }
+
+    public IPlatform init(PlatformConfig config) {
+        return this;
     }
 
     @Override
-    public void enable(boolean enable) {
-
+    public IPlatform attach(Context context) {
+        this.converter = new WeeeConverter();
+        return this;
     }
 
     @Override
-    public void logConfig(String logFileName, boolean logEnable) {
-
+    public IPlatform enable(boolean enable) {
+        return this;
     }
 
+    @Override
+    public IPlatform logConfig(String logFileName, boolean logEnable) {
+        return this;
+    }
 
     @Override
-    public void convert(IConverter convert) {
+    public IPlatform customConverter(IConverter converter) {
+        return this;
+    }
 
+    @Override
+    public EventModel convert(String eventName, Map<String, Object> params) {
+        return new EventModel(this, converter.convertEvent(eventName), converter.convertParameter(params));
+    }
+
+    @Override
+    public EventModel convert(String eventName, String json) {
+        return convert(eventName, Utils.convertMap(json));
+    }
+
+    @Override
+    public int platformCode() {
+        return 0;
     }
 
     @Override
@@ -54,16 +86,20 @@ public class WeeePlatform implements IPlatform {
 
     @Override
     public void track(String eventName) {
-
+        track(eventName, null);
     }
 
     @Override
     public void track(String eventName, Map<String, Object> params) {
-
+        execTrack(eventName, params);
     }
 
     @Override
     public void trackByJson(String eventName, String json) {
+        track(eventName, Utils.convertMap(json));
+    }
+
+    private void execTrack(String eventName, Map<String, Object> params){
 
     }
 }

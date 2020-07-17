@@ -9,11 +9,9 @@ import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.AppsFlyerTrackingRequestListener;
 import com.sayweee.logger.LogAdapter;
 import com.sayweee.logger.Logger;
-import com.sayweee.track.EventModel;
-import com.sayweee.track.Interceptor;
-import com.sayweee.track.IPlatform;
-import com.sayweee.track.TrackManager;
-import com.sayweee.track.callback.InterceptorCallback;
+import com.sayweee.track.convert.AppsFlyerConverter;
+import com.sayweee.track.model.EventModel;
+import com.sayweee.track.core.PlatformConfig;
 import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.log.TrackLogAdapter;
 import com.sayweee.track.utils.Utils;
@@ -33,31 +31,54 @@ public class AppsFlayerPlatform implements IPlatform {
     private String logFileName;
     private boolean logEnable;
     private LogAdapter adapter = TrackLogAdapter.getInstance();
-    private IConverter converter = new AppsFlyerConverter();
+    private IConverter converter;
 
-    public AppsFlayerPlatform(Context context, String appId) {
-        init(appId, null);
+
+    public static AppsFlayerPlatform get() {
+        return Builder.platform;
+    }
+
+    private static class Builder{
+        private static AppsFlayerPlatform platform = new AppsFlayerPlatform();
+    }
+
+    public IPlatform init(PlatformConfig config) {
+        return this;
     }
 
     @Override
-    public void attach(Context context) {
+    public IPlatform attach(Context context) {
         this.context = context;
+        this.converter = new AppsFlyerConverter();
+        return this;
     }
 
     @Override
-    public void enable(boolean enable) {
+    public IPlatform enable(boolean enable) {
         this.enable = enable;
+        return this;
     }
 
     @Override
-    public void logConfig(String logFileName, boolean logEnable) {
+    public IPlatform logConfig(String logFileName, boolean logEnable) {
         this.logFileName = logFileName;
         this.logEnable = logEnable;
+        return this;
+    }
+
+    @Override
+    public IPlatform customConverter(IConverter converter) {
+        return this;
     }
 
     @Override
     public EventModel convert(String eventName, Map<String, Object> params) {
         return new EventModel(this, converter.convertEvent(eventName), converter.convertParameter(params));
+    }
+
+    @Override
+    public EventModel convert(String eventName, String json) {
+        return convert(eventName, Utils.convertMap(json));
     }
 
     @Override

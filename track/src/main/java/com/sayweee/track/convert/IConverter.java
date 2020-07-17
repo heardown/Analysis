@@ -1,7 +1,5 @@
 package com.sayweee.track.convert;
 
-import com.sayweee.track.IPlatform;
-
 import java.util.Map;
 
 /**

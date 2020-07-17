@@ -1,4 +1,6 @@
-package com.sayweee.track;
+package com.sayweee.track.model;
+
+import com.sayweee.track.platform.IPlatform;
 
 import java.util.Map;
 

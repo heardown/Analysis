@@ -1,6 +1,6 @@
 package com.sayweee.track.callback;
 
-import com.sayweee.track.IPlatform;
+import com.sayweee.track.platform.IPlatform;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public interface InterceptorCallback {
      * @param eventName
      * @param params
      */
-    void onContinue(String eventName, Map<String, Object> params);
+    void onContinue(String eventName, Map<String, Object> params, boolean convert);
 
     /**
      * 拦截的回掉
@@ -25,5 +25,5 @@ public interface InterceptorCallback {
      * @param eventName
      * @param params
      */
-    void onInterrupt(IPlatform platform, String eventName, Map<String, Object> params);
+    void onInterrupt(IPlatform platform, String eventName, Object params);
 }
