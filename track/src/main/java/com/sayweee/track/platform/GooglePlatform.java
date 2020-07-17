@@ -41,10 +41,6 @@ public class GooglePlatform implements IPlatform {
 
     }
 
-    @Override
-    public void intercept(Interceptor iInterceptor) {
-
-    }
 
     @Override
     public void convert(IConverter convert) {

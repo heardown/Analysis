@@ -5,6 +5,12 @@ import com.sayweee.track.convert.IConverter;
 
 import java.util.Map;
 
+/**
+ * Author:  winds
+ * Email:   heardown@163.com
+ * Date:    20120/7/16.
+ * Desc:
+ */
 public class AppsFlyerEventConvert implements IConverter {
 
     @Override

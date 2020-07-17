@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Author:  winds
+ * Email:   heardown@163.com
+ * Date:    20120/7/16.
+ * Desc:
+ */
 public class InterceptorServiceIml implements InterceptorService {
 
     final List<Interceptor> interceptors = new ArrayList<>();
@@ -39,6 +45,7 @@ public class InterceptorServiceIml implements InterceptorService {
     private void exec(final int index, final IPlatform platform, final CancelableCountDownLatch counter, String eventName, Map<String, Object> params){
         if(index < interceptors.size()) {
             Interceptor interceptor = interceptors.get(index);
+
             interceptor.process(platform, eventName, params, new InterceptorCallback() {
                 @Override
                 public void onContinue(String eventName, Map<String, Object> params) {

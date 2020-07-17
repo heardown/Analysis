@@ -13,6 +13,12 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Author:  winds
+ * Email:   heardown@163.com
+ * Date:    20120/7/16.
+ * Desc:
+ */
 public class TrackLogAdapter implements LogAdapter {
 
     public final static String TAG = "TrackLogAdapter";
