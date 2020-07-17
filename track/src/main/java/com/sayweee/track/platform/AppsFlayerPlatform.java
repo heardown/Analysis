@@ -2,12 +2,14 @@ package com.sayweee.track.platform;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.AppsFlyerTrackingRequestListener;
 import com.sayweee.logger.LogAdapter;
 import com.sayweee.logger.Logger;
+import com.sayweee.track.EventModel;
 import com.sayweee.track.Interceptor;
 import com.sayweee.track.IPlatform;
 import com.sayweee.track.TrackManager;
@@ -30,17 +32,16 @@ public class AppsFlayerPlatform implements IPlatform {
     private boolean enable;
     private String logFileName;
     private boolean logEnable;
-    private AppsFlyerEventConvert converter;
-    private static AppsFlayerPlatform platform = new AppsFlayerPlatform();
-    private LogAdapter adapter;
-    public static AppsFlayerPlatform get() {
-        return platform;
+    private LogAdapter adapter = TrackLogAdapter.getInstance();
+    private IConverter converter = new AppsFlyerConverter();
+
+    public AppsFlayerPlatform(Context context, String appId) {
+        init(appId, null);
     }
 
     @Override
     public void attach(Context context) {
         this.context = context;
-        this.adapter = TrackLogAdapter.getInstance();
     }
 
     @Override
@@ -55,18 +56,23 @@ public class AppsFlayerPlatform implements IPlatform {
     }
 
     @Override
-    public void convert(IConverter convert) {
-//        convert.convert(this, );
+    public EventModel convert(String eventName, Map<String, Object> params) {
+        return new EventModel(this, converter.convertEvent(eventName), converter.convertParameter(params));
+    }
+
+    @Override
+    public int platformCode() {
+        return 0;
     }
 
     @Override
     public void startTrack() {
-
+        AppsFlyerLib.getInstance().startTracking(context);
     }
 
     @Override
     public void endTrack() {
-
+        AppsFlyerLib.getInstance().stopTracking(true, context);
     }
 
     @Override
@@ -89,22 +95,23 @@ public class AppsFlayerPlatform implements IPlatform {
         track(eventName, Utils.convertMap(jsonStr));
     }
 
-
     private void execTrack(final String eventName, final Map<String, Object> params) {
-        AppsFlyerLib.getInstance().trackEvent(context,
-                eventName,
-                params,
-                new AppsFlyerTrackingRequestListener() {
-                    @Override
-                    public void onTrackingRequestSuccess() {
-                        Logger.adapter(adapter).f(logFileName).enable(logEnable).json("onTrackingRequestSuccess", eventName, params);
-                    }
+        if(enable) {
+            AppsFlyerLib.getInstance().trackEvent(context,
+                    eventName,
+                    params,
+                    new AppsFlyerTrackingRequestListener() {
+                        @Override
+                        public void onTrackingRequestSuccess() {
+                            Logger.adapter(adapter).f(logFileName).enable(logEnable).json("onTrackingRequestSuccess", eventName, params);
+                        }
 
-                    @Override
-                    public void onTrackingRequestFailure(String s) {
-                        Logger.adapter(adapter).f(logFileName).enable(logEnable).json("onTrackingRequestSuccess", eventName, params);
-                    }
-                });
+                        @Override
+                        public void onTrackingRequestFailure(String s) {
+                            Logger.adapter(adapter).f(logFileName).enable(logEnable).json("onTrackingRequestSuccess", eventName, params);
+                        }
+                    });
+        }
     }
 
 
@@ -131,7 +138,9 @@ public class AppsFlayerPlatform implements IPlatform {
                 Logger.adapter(adapter).f(logFileName).enable(logEnable).json("onAttributionFailure", s);
             }
         }, context);
-        setUserId(userId);
-        AppsFlyerLib.getInstance().startTracking(context);
+        if(TextUtils.isEmpty(userId)) {
+            setUserId(userId);
+        }
+        startTrack();
     }
 }

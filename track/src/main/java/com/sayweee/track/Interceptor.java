@@ -12,6 +12,20 @@ import java.util.Map;
  */
 public interface Interceptor {
 
+
+
+    /**
+     * 处理事件 注意处理事件时如无需拦截 请回掉给下个拦截器
+     * @param platform
+     * @param eventName
+     * @param params
+     * @param callback
+     */
     void process(IPlatform platform, String eventName, Map<String, Object> params, InterceptorCallback callback);
 
+    /**
+     * 优先级  优先高优先级处理
+     * @return
+     */
+    int getPriority();
 }

@@ -12,6 +12,24 @@ import java.util.Map;
  */
 public interface IConverter {
 
-    void convert(IPlatform platform, String eventName, Map<String, Object> params);
+    /**
+     * 转换事件名称
+     * @param eventName
+     * @return
+     */
+    String convertEvent(String eventName);
 
+    /**
+     * 转换事件参数
+     * @param params
+     * @return
+     */
+    Map<String, Object> convertParameter(Map<String, Object> params);
+
+    /**
+     * 转换事件参数
+     * @param parameter
+     * @return
+     */
+    String convertParameter(String parameter);
 }

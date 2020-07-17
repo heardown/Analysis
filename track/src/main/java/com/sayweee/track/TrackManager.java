@@ -36,7 +36,6 @@ public class TrackManager {
         service = new InterceptorServiceIml();
     }
 
-
     public static TrackManager get() {
         return sInstance;
     }

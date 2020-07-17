@@ -20,10 +20,10 @@ public interface InterceptorCallback {
     void onContinue(String eventName, Map<String, Object> params);
 
     /**
-     * 拦截
+     * 拦截的回掉
      * @param platform
      * @param eventName
      * @param params
      */
-    boolean onInterrupt(IPlatform platform, String eventName, Map<String, Object> params);
+    void onInterrupt(IPlatform platform, String eventName, Map<String, Object> params);
 }

@@ -14,10 +14,11 @@ public class DefaultInterceptor implements Interceptor {
 
     @Override
     public void process(IPlatform platform, String eventName, Map<String, Object> params, InterceptorCallback callback) {
-        if(true) {
-            callback.onContinue(eventName, params);
-        }else{
-            callback.onInterrupt(platform, eventName, params);
-        }
+       platform.convert(eventName, params).track();
+    }
+
+    @Override
+    public int getPriority() {
+        return 0;
     }
 }

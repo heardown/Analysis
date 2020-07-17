@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.sayweee.track.convert.IConverter;
 
+import java.util.Map;
+
 /**
  * Author:  winds
  * Email:   heardown@163.com
@@ -18,5 +20,7 @@ public interface IPlatform extends ITrack{
 
     void logConfig(String logFileName, boolean logEnable);
 
-    void convert(IConverter convert);
+    EventModel convert(String eventName, Map<String, Object> params);
+
+    int platformCode();
 }

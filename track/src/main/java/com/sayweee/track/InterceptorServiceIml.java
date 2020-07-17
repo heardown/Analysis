@@ -1,11 +1,12 @@
 package com.sayweee.track;
 
-import com.alibaba.android.arouter.thread.CancelableCountDownLatch;
 import com.sayweee.track.callback.InterceptorCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Author:  winds
@@ -16,6 +17,11 @@ import java.util.Map;
 public class InterceptorServiceIml implements InterceptorService {
 
     final List<Interceptor> interceptors = new ArrayList<>();
+    final Executor executor;
+
+    public InterceptorServiceIml() {
+         executor = Executors.newSingleThreadExecutor();
+    }
 
     public void addInterceptor(Interceptor interceptor) {
         interceptors.add(interceptor);
@@ -33,30 +39,31 @@ public class InterceptorServiceIml implements InterceptorService {
     }
 
     @Override
-    public void doInterceptions(IPlatform platform, String eventName, Map<String, Object> params) {
+    public void doInterceptions(final IPlatform platform, final String eventName, final Map<String, Object> params) {
         if(interceptors != null && interceptors.size() > 0) {
-            CancelableCountDownLatch counter = new CancelableCountDownLatch(interceptors.size());
-            exec(0,  platform, counter, eventName, params);
-        } else {
-            platform.track(eventName, params);
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    exec(0,  platform, eventName, params);
+                }
+            });
+
         }
     }
 
-    private void exec(final int index, final IPlatform platform, final CancelableCountDownLatch counter, String eventName, Map<String, Object> params){
+    private void exec(final int index, final IPlatform platform, String eventName, Map<String, Object> params){
         if(index < interceptors.size()) {
             Interceptor interceptor = interceptors.get(index);
 
             interceptor.process(platform, eventName, params, new InterceptorCallback() {
                 @Override
                 public void onContinue(String eventName, Map<String, Object> params) {
-                    counter.countDown();
-                    exec(index + 1, platform, counter,  eventName, params);
+                    exec(index + 1, platform,  eventName, params);
                 }
 
                 @Override
-                public boolean onInterrupt(IPlatform platform, String eventName, Map<String, Object> params) {
-                    counter.cancel();
-                    return false;
+                public void onInterrupt(IPlatform platform, String eventName, Map<String, Object> params) {
+
                 }
             });
         }

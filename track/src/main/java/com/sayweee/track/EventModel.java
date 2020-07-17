@@ -9,6 +9,17 @@ import java.util.Map;
  * Desc:
  */
 public class EventModel {
+    IPlatform platform;
     public String eventName;
     public Map<String, Object> params;
+
+    public EventModel(IPlatform platform, String eventName, Map<String, Object> params) {
+        this.platform = platform;
+        this.eventName = eventName;
+        this.params = params;
+    }
+
+    public void track(){
+        platform.track(eventName, params);
+    }
 }
