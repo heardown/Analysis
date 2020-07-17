@@ -1,0 +1,4 @@
+include ':track'
+include ':crash-report'
+include ':app'
+rootProject.name = "Analysis"
