@@ -6,5 +6,5 @@ package com.sayweee.track.model;
  * Date:    20120/7/16.
  * Desc:    标准事件参数
  */
-public class TrackEventParameter {
+public class IEventParameter {
 }

@@ -10,7 +10,7 @@ import com.appsflyer.AppsFlyerTrackingRequestListener;
 import com.sayweee.logger.LogAdapter;
 import com.sayweee.logger.Logger;
 import com.sayweee.track.convert.AppsFlyerConverter;
-import com.sayweee.track.model.EventModel;
+import com.sayweee.track.model.TrackEvent;
 import com.sayweee.track.core.PlatformConfig;
 import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.log.TrackLogAdapter;
@@ -72,12 +72,12 @@ public class AppsFlayerPlatform implements IPlatform {
     }
 
     @Override
-    public EventModel convert(String eventName, Map<String, Object> params) {
-        return new EventModel(this, converter.convertEvent(eventName), converter.convertParameter(params));
+    public TrackEvent convert(String eventName, Map<String, Object> params) {
+        return new TrackEvent(this, converter.convertEvent(eventName), converter.convertParameter(params));
     }
 
     @Override
-    public EventModel convert(String eventName, String json) {
+    public TrackEvent convert(String eventName, String json) {
         return convert(eventName, Utils.convertMap(json));
     }
 

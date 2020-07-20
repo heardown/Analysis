@@ -6,6 +6,11 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sayweee.track.TrackConfig;
+import com.sayweee.track.TrackManager;
+
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,8 +22,25 @@ public class MainActivity extends AppCompatActivity {
     public void click(View view) {
         switch (view.getId()) {
             case R.id.crash1:
-                int i = 5 / 0;
+
+                break;
+            case R.id.track:
+
                 break;
         }
+    }
+
+    private void config() {
+        TrackConfig config = new TrackConfig.Builder().appsFlyer(new TrackConfig.AppsFlyerConfig("", true))
+                .facebook(new TrackConfig.FacebookConfig()).build();
+        TrackManager.get().init(getApplication(), config);
+    }
+
+    private void track(String eventName) {
+        TrackManager.get().track(eventName);
+    }
+
+    private void trackWithConvert(String eventName, Map<String, Object> params) {
+        TrackManager.get().track(eventName, params, true);
     }
 }

@@ -1,6 +1,7 @@
 package com.sayweee.track.convert;
 
-import com.sayweee.track.convert.IConverter;
+
+import com.sayweee.track.model.AppsFlyerEvent;
 
 import java.util.Map;
 
@@ -12,9 +13,14 @@ import java.util.Map;
  */
 public class AppsFlyerConverter implements IConverter {
 
+    AppsFlyerEvent appsFlyerEvent;
+    public AppsFlyerConverter() {
+        appsFlyerEvent = new AppsFlyerEvent();
+    }
+
     @Override
     public String convertEvent(String eventName) {
-        return eventName;
+        return appsFlyerEvent.mapping(eventName);
     }
 
     @Override

@@ -4,9 +4,8 @@ import android.content.Context;
 
 import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.convert.WeeeConverter;
-import com.sayweee.track.model.EventModel;
+import com.sayweee.track.model.TrackEvent;
 import com.sayweee.track.core.PlatformConfig;
-import com.sayweee.track.TrackConfig;
 import com.sayweee.track.utils.Utils;
 
 import java.util.Map;
@@ -55,12 +54,12 @@ public class WeeePlatform implements IPlatform {
     }
 
     @Override
-    public EventModel convert(String eventName, Map<String, Object> params) {
-        return new EventModel(this, converter.convertEvent(eventName), converter.convertParameter(params));
+    public TrackEvent convert(String eventName, Map<String, Object> params) {
+        return new TrackEvent(this, converter.convertEvent(eventName), converter.convertParameter(params));
     }
 
     @Override
-    public EventModel convert(String eventName, String json) {
+    public TrackEvent convert(String eventName, String json) {
         return convert(eventName, Utils.convertMap(json));
     }
 

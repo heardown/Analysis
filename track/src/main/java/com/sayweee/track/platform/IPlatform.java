@@ -5,7 +5,7 @@ import android.content.Context;
 import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.core.ITrack;
 import com.sayweee.track.core.PlatformConfig;
-import com.sayweee.track.model.EventModel;
+import com.sayweee.track.model.TrackEvent;
 
 import java.util.Map;
 
@@ -59,7 +59,7 @@ public interface IPlatform extends ITrack {
      * @param params
      * @return
      */
-    EventModel convert(String eventName, Map<String, Object> params);
+    TrackEvent convert(String eventName, Map<String, Object> params);
 
     /**
      * 把事件对应对应转换后生成对应的事件模型
@@ -67,7 +67,7 @@ public interface IPlatform extends ITrack {
      * @param json
      * @return
      */
-    EventModel convert(String eventName, String json);
+    TrackEvent convert(String eventName, String json);
 
     /**
      * 平台标识码

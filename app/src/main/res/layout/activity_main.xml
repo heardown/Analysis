@@ -11,4 +11,11 @@
         android:onClick="click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/track"
+        android:text="track设置"
+        android:onClick="click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

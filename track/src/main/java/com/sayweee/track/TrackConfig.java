@@ -1,6 +1,8 @@
 package com.sayweee.track;
 
+import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.core.PlatformConfig;
+import com.sayweee.track.platform.WeeePlatform;
 
 /**
  * Author:  winds
@@ -78,69 +80,6 @@ public class TrackConfig {
         public Builder() {
         }
 
-        public Builder setPackageName(String packageName) {
-            this.packageName = packageName;
-            return this;
-        }
-
-        public Builder appsFlyer(String appsFlyerKey, boolean appsFlyerEnable) {
-            if(appsFlyerConfig == null) {
-                appsFlyerConfig = new AppsFlyerConfig();
-            }
-            appsFlyerConfig.appsFlyerKey = appsFlyerKey;
-            appsFlyerConfig.appsFlyerEnable = appsFlyerEnable;
-            return this;
-        }
-
-        public Builder appsFlyer(AppsFlyerConfig appsFlyerConfig) {
-            this.appsFlyerConfig = appsFlyerConfig;
-            return this;
-        }
-
-        public Builder setAppsFlyerExtra(String logFileName, boolean logEnable) {
-            if(appsFlyerConfig == null) {
-                appsFlyerConfig = new AppsFlyerConfig();
-            }
-            appsFlyerConfig.appsFlyerLogFileName = logFileName;
-            appsFlyerConfig.appsFlyerLogEnable = logEnable;
-            return this;
-        }
-
-        public Builder facebook(boolean facebookEnable) {
-            if(facebookConfig == null) {
-                facebookConfig = new FacebookConfig();
-            }
-            facebookConfig.facebookEnable = facebookEnable;
-            return this;
-        }
-
-
-        public Builder setFacebookExtra(String logFileName, boolean logEnable) {
-            if(facebookConfig == null) {
-                facebookConfig = new FacebookConfig();
-            }
-            facebookConfig.facebookLogFileName = logFileName;
-            facebookConfig.facebookLogEnable = logEnable;
-            return this;
-        }
-
-        public Builder setGoogleExtra(String logFileName, boolean logEnable) {
-            if(googleConfig == null) {
-                googleConfig = new GoogleConfig();
-            }
-            googleConfig.googleLogFileName = logFileName;
-            googleConfig.googleLogEnable = logEnable;
-            return this;
-        }
-
-        public Builder google(boolean googleEnable) {
-            if(googleConfig == null) {
-                googleConfig = new GoogleConfig();
-            }
-            googleConfig.googleEnable = googleEnable;
-            return this;
-        }
-
         public Builder setLogFileName(String logFileName) {
             this.logFileName = logFileName;
             return this;
@@ -151,16 +90,33 @@ public class TrackConfig {
             return this;
         }
 
+        public Builder setPackageName(String packageName) {
+            this.packageName = packageName;
+            return this;
+        }
+
+        public Builder appsFlyer(AppsFlyerConfig appsFlyerConfig) {
+            this.appsFlyerConfig = appsFlyerConfig;
+            return this;
+        }
+
+        public Builder facebook(FacebookConfig facebookConfig) {
+            this.facebookConfig = facebookConfig;
+            return this;
+        }
+
+        public Builder google(GoogleConfig googleConfig) {
+            this.googleConfig = googleConfig;
+            return this;
+        }
+
         public TrackConfig build() {
             return new TrackConfig(this);
         }
     }
 
-    public static class AppsFlyerConfig implements PlatformConfig{
+    public static class AppsFlyerConfig extends PlatformConfig{
         public String appsFlyerKey;
-        public boolean appsFlyerEnable;
-        public String appsFlyerLogFileName;
-        public boolean appsFlyerLogEnable;
 
         public AppsFlyerConfig() {
 
@@ -170,52 +126,24 @@ public class TrackConfig {
             this.appsFlyerKey = appsFlyerKey;
         }
 
-        public AppsFlyerConfig(String appsFlyerKey, boolean appsFlyerEnable) {
-            this.appsFlyerKey = appsFlyerKey;
-            this.appsFlyerEnable = appsFlyerEnable;
-        }
-
-        public AppsFlyerConfig(String appsFlyerKey, boolean appsFlyerEnable, String appsFlyerLogFileName, boolean appsFlyerLogEnable) {
-            this.appsFlyerKey = appsFlyerKey;
-            this.appsFlyerEnable = appsFlyerEnable;
-            this.appsFlyerLogFileName = appsFlyerLogFileName;
-            this.appsFlyerLogEnable = appsFlyerLogEnable;
-        }
     }
 
-    public static class GoogleConfig implements PlatformConfig{
-        public boolean googleEnable;
-        public String googleLogFileName;
-        public boolean googleLogEnable;
-
+    public static class GoogleConfig extends PlatformConfig{
         public GoogleConfig(){
 
         }
 
-        public GoogleConfig(boolean googleEnable, String googleLogFileName, boolean googleLogEnable) {
-            this.googleEnable = googleEnable;
-            this.googleLogFileName = googleLogFileName;
-            this.googleLogEnable = googleLogEnable;
-        }
     }
 
-    public static class FacebookConfig implements PlatformConfig{
-        public boolean  facebookEnable;
-        public String facebookLogFileName;
-        public boolean facebookLogEnable;
-
+    public static class FacebookConfig extends PlatformConfig{
         public FacebookConfig() {
 
         }
-
-        public FacebookConfig(boolean facebookEnable, String facebookLogFileName, boolean facebookLogEnable) {
-            this.facebookEnable = facebookEnable;
-            this.facebookLogFileName = facebookLogFileName;
-            this.facebookLogEnable = facebookLogEnable;
-        }
     }
 
-    public static class WeeeConfig implements PlatformConfig{
+    public static class WeeeConfig extends PlatformConfig{
 
+        public WeeeConfig() {
+        }
     }
 }
