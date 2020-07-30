@@ -18,8 +18,8 @@ allprojects {
         google()
         jcenter()
         mavenLocal()
-        maven { url  config.MAVEN_REPO_RELEASE }
-        maven { url  config.MAVEN_REPO_SNAPSHOT }
+        maven { url  config.MAVEN_REPO_RELEASE_URL }
+        maven { url  config.MAVEN_REPO_SNAPSHOT_URL }
     }
 }
 

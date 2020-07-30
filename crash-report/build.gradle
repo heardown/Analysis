@@ -51,10 +51,10 @@ uploadArchives {
                     description DESCRIPTION
                 }
             }else{
-                snapshotRepository(url: config.MAVEN_REPO_SNAPSHOT) {
+                snapshotRepository(url: config.MAVEN_REPO_SNAPSHOT_URL) {
                     authentication(userName: config.NEXUS_USERNAME, password: config.NEXUS_PASSWORD)
                 }
-                repository(url: config.MAVEN_REPO_RELEASE) {
+                repository(url: config.MAVEN_REPO_RELEASE_URL) {
                     authentication(userName: config.NEXUS_USERNAME, password: config.NEXUS_PASSWORD)
                 }
                 pom.project {
