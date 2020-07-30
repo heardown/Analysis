@@ -26,8 +26,7 @@ import com.sayweee.track.convert.IConvert;
  */
 public interface IEvent extends IConvert {
 
-    String EVENT_VIEW = "event_view";
-
+    String EVENT_VIEW = "pv";
     //af标准事件
     String EVENT_LEVEL_ACHIEVED = "af_level_achieved";
     String EVENT_ADD_PAYMENT_INFO = "af_add_payment_info";
