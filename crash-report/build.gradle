@@ -51,8 +51,12 @@ uploadArchives {
                     description DESCRIPTION
                 }
             }else{
-                repository(url: MAVEN_REPO_RELEASE_URL)
-                snapshotRepository(url: MAVEN_REPO_SNAPSHOT_URL)
+                snapshotRepository(url: MAVEN_REPO_SNAPSHOT_URL) {
+                    authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+                }
+                repository(url: MAVEN_REPO_RELEASE_URL) {
+                    authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+                }
                 pom.project {
                     version '0.0.1'
                     artifactId 'crash-report'

@@ -1,8 +1,7 @@
 package com.sayweee.track;
 
-import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.core.PlatformConfig;
-import com.sayweee.track.platform.WeeePlatform;
+import com.sayweee.track.model.Target;
 
 /**
  * Author:  winds
@@ -110,6 +109,11 @@ public class TrackConfig {
             return this;
         }
 
+        public Builder weee(WeeeConfig weeeConfig) {
+            this.weeeConfig = weeeConfig;
+            return this;
+        }
+
         public TrackConfig build() {
             return new TrackConfig(this);
         }
@@ -119,31 +123,54 @@ public class TrackConfig {
         public String appsFlyerKey;
 
         public AppsFlyerConfig() {
-
+            this.logFileName = "track/af";
         }
 
         public AppsFlyerConfig(String appsFlyerKey) {
+            this();
             this.appsFlyerKey = appsFlyerKey;
+        }
+
+        @Override
+        public int getPerformCode() {
+            return Target.PLATFORM_AF;
         }
 
     }
 
     public static class GoogleConfig extends PlatformConfig{
         public GoogleConfig(){
+            logFileName = "track/ga";
+        }
 
+        @Override
+        public int getPerformCode() {
+            return Target.PLATFORM_GA;
         }
 
     }
 
     public static class FacebookConfig extends PlatformConfig{
         public FacebookConfig() {
+            logFileName = "track/fb";
+        }
 
+        @Override
+        public int getPerformCode() {
+            return Target.PLATFORM_FB;
         }
     }
 
     public static class WeeeConfig extends PlatformConfig{
+        public String token;
 
         public WeeeConfig() {
+            logFileName = "track/weee";
+        }
+
+        @Override
+        public int getPerformCode() {
+            return Target.PLATFORM_WEEE;
         }
     }
 }

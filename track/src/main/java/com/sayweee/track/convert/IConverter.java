@@ -6,7 +6,7 @@ import java.util.Map;
  * Author:  winds
  * Email:   heardown@163.com
  * Date:    20120/7/16.
- * Desc:
+ * Desc:    转换器转暴露的方法
  */
 public interface IConverter {
 

@@ -5,22 +5,24 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.ArrayMap;
 
 import com.sayweee.track.TrackConfig;
 import com.sayweee.track.TrackManager;
 import com.sayweee.track.interceptor.DefaultInterceptor;
 import com.sayweee.track.interceptor.Interceptor;
-import com.sayweee.track.platform.AppsFlayerPlatform;
-import com.sayweee.track.platform.FackbookPlatform;
-import com.sayweee.track.platform.GooglePlatform;
-import com.sayweee.track.platform.IPlatform;
-import com.sayweee.track.platform.WeeePlatform;
+import com.sayweee.track.model.Target;
+import com.sayweee.track.platform.af.AppsFlayerPlatform;
+import com.sayweee.track.platform.fb.FackbookPlatform;
+import com.sayweee.track.platform.ga.GooglePlatform;
+import com.sayweee.track.platform.weee.WeeePlatform;
 import com.sayweee.track.utils.Utils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +31,13 @@ import java.util.Map;
  * Author:  winds
  * Email:   heardown@163.com
  * Date:    20120/7/15.
- * Desc:
+ * Desc:    具体的实现类，对外隐藏
  */
 public class TrackManagerIml extends TrackManager {
 
     private Context context;
     private InterceptorService service;
+    private HashMap<String, String> extendMap;
 
     private ActivityLifecycleImpl lifecycleIml;
 
@@ -42,8 +45,9 @@ public class TrackManagerIml extends TrackManager {
 
     private List<IPlatform> platforms = new ArrayList<>();
 
-    protected TrackManagerIml(){
+    protected TrackManagerIml() {
         service = new InterceptorServiceIml();
+        extendMap = new HashMap<>();
         addInterceptor(new DefaultInterceptor());
     }
 
@@ -51,13 +55,32 @@ public class TrackManagerIml extends TrackManager {
     public void init(Application application, TrackConfig config) {
         context = application;
         create(config);
-//        lifecycleIml = new ActivityLifecycleImpl();
-//        application.registerActivityLifecycleCallbacks(lifecycleIml);
+        lifecycleIml = new ActivityLifecycleImpl();
+        application.registerActivityLifecycleCallbacks(lifecycleIml);
+    }
+
+    @Override
+    public void updateConfig(PlatformConfig config) {
+        if (config != null) {
+            for (IPlatform platform : platforms) {
+                if (config.getPerformCode() == platform.platformCode()) {
+                    platform.updateConfig(config);
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setUserId(String userId) {
+        for (IPlatform platform : platforms) {
+            platform.setUserId(userId);
+        }
     }
 
     @Override
     public void track(String eventName) {
-        track(eventName, true);
+        track(eventName, false);
     }
 
     @Override
@@ -65,17 +88,37 @@ public class TrackManagerIml extends TrackManager {
         track(eventName, null, convert);
     }
 
-
     @Override
     public void track(String eventName, final Map<String, Object> params) {
-      track(eventName, params, true);
+        track(eventName, params, false);
     }
 
     @Override
     public void track(String eventName, Map<String, Object> params, boolean convert) {
-        processInterceptor(eventName, params, convert);
+        track(Target.TYPE_ACTION, eventName, params, convert);
     }
 
+    @Override
+    public void track(int type, String eventName, Map<String, Object> params) {
+        track(type, eventName, params, false);
+    }
+
+    @Override
+    public void track(int type, String eventName, Map<String, Object> params, boolean convert) {
+        processInterceptor(type, eventName, params, convert);
+    }
+
+    @Override
+    public void addExtendMappingEvent(Map<String, String> map) {
+        if (map != null && map.size() > 0) {
+            extendMap.putAll(map);
+        }
+    }
+
+    @Override
+    public Map<String, String> getExtendMappingEvent() {
+        return extendMap;
+    }
 
     @Override
     public void trackByJson(String eventName, String json) {
@@ -87,15 +130,14 @@ public class TrackManagerIml extends TrackManager {
         track(eventName, Utils.convertMap(json), convert);
     }
 
-
     @Override
     public void addInterceptor(Interceptor interceptor) {
         service.addInterceptor(interceptor);
     }
 
     @Override
-    public void removeInterceptor(Interceptor interceptor){
-       service.removeInterceptor(interceptor);
+    public void removeInterceptor(Interceptor interceptor) {
+        service.removeInterceptor(interceptor);
     }
 
     @Override
@@ -103,31 +145,42 @@ public class TrackManagerIml extends TrackManager {
         service.clearInterceptor();
     }
 
+    @Override
+    public IPlatform getPlatform(int platformCode) {
+        if (platforms != null && platforms.size() > 0) {
+            for (IPlatform platform : platforms) {
+                if (platform.platformCode() == platformCode) {
+                    return platform;
+                }
+            }
+        }
+        return null;
+    }
+
     private void create(TrackConfig config) {
-        if(config != null) {
-            if(config.getAppsFlyerConfig() != null) {
+        if (config != null) {
+            if (config.getAppsFlyerConfig() != null) {
                 platforms.add(AppsFlayerPlatform.get().attach(context).init(config.getAppsFlyerConfig()));
             }
-            if(config.getFacebookConfig() != null) {
+            if (config.getFacebookConfig() != null) {
                 platforms.add(FackbookPlatform.get().attach(context).init(config.getFacebookConfig()));
             }
-            if(config.getAppsFlyerConfig() != null) {
+            if (config.getAppsFlyerConfig() != null) {
                 platforms.add(GooglePlatform.get().attach(context).init(config.getGoogleConfig()));
             }
-            if(config.getAppsFlyerConfig() != null) {
+            if (config.getAppsFlyerConfig() != null) {
                 platforms.add(WeeePlatform.get().attach(context).init(config.getWeeeConfig()));
             }
         }
     }
 
-
-    private void processInterceptor(final String eventName, final Map<String, Object> params, boolean convert){
-        for(IPlatform platform : platforms) {
-            service.doInterceptions(platform, eventName, params, convert);
+    private void processInterceptor(int type, String eventName, Map<String, Object> params, boolean convert) {
+        for (IPlatform platform : platforms) {
+            service.doInterceptions(platform, type, eventName, params, convert);
         }
     }
 
-    private class ActivityLifecycleImpl implements Application.ActivityLifecycleCallbacks{
+    private class ActivityLifecycleImpl implements Application.ActivityLifecycleCallbacks {
         final LinkedList<WeakReference<Activity>> mActivityList = new LinkedList<>();
 
         @Override
@@ -230,6 +283,14 @@ public class TrackManagerIml extends TrackManager {
             }
             return null;
         }
+
+    }
+
+    public Activity getTopActivity() {
+        if (lifecycleIml != null) {
+            return lifecycleIml.getTopActivity();
+        }
+        return null;
     }
 
 }

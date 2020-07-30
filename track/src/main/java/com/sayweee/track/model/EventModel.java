@@ -1,6 +1,6 @@
 package com.sayweee.track.model;
 
-import com.sayweee.track.platform.IPlatform;
+import com.sayweee.track.core.IPlatform;
 
 import java.util.Map;
 
@@ -10,18 +10,24 @@ import java.util.Map;
  * Date:    20120/7/15.
  * Desc:
  */
-public class TrackEvent {
+public class EventModel {
     IPlatform platform;
+    public int type;
     public String eventName;
     public Map<String, Object> params;
 
-    public TrackEvent(IPlatform platform, String eventName, Map<String, Object> params) {
+    public EventModel(IPlatform platform, String eventName, Map<String, Object> params) {
         this.platform = platform;
         this.eventName = eventName;
         this.params = params;
     }
 
     public void track(){
-        platform.track(eventName, params);
+        platform.track(type, eventName, params);
+    }
+
+    public EventModel withType(int type) {
+        this.type = type;
+        return this;
     }
 }

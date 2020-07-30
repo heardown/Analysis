@@ -1,6 +1,6 @@
 package com.sayweee.track.callback;
 
-import com.sayweee.track.platform.IPlatform;
+import com.sayweee.track.core.IPlatform;
 
 import java.util.Map;
 

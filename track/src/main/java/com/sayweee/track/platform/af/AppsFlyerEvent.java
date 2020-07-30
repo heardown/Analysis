@@ -1,6 +1,7 @@
-package com.sayweee.track.model;
+package com.sayweee.track.platform.af;
 
 import com.appsflyer.AFInAppEventType;
+import com.sayweee.track.model.IEvent;
 
 /**
  * Author:  winds

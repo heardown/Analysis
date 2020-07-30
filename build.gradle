@@ -18,6 +18,7 @@ allprojects {
         jcenter()
         mavenLocal()
         maven { url  "http://maven.sayweee.net:8081/repository/maven-releases/" }
+        maven { url  "http://maven.sayweee.net:8081/repository/maven-snapshots/" }
     }
 }
 

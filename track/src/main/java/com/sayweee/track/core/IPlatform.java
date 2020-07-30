@@ -1,11 +1,10 @@
-package com.sayweee.track.platform;
+package com.sayweee.track.core;
 
 import android.content.Context;
 
 import com.sayweee.track.convert.IConverter;
-import com.sayweee.track.core.ITrack;
-import com.sayweee.track.core.PlatformConfig;
-import com.sayweee.track.model.TrackEvent;
+import com.sayweee.track.model.EventModel;
+import com.sayweee.track.model.Target;
 
 import java.util.Map;
 
@@ -32,6 +31,12 @@ public interface IPlatform extends ITrack {
     IPlatform init(PlatformConfig config);
 
     /**
+     * 更新设置
+     * @param config
+     * @return
+     */
+    IPlatform updateConfig(PlatformConfig config);
+    /**
      * 是否启动当前的平台
      * @param enable
      * @return
@@ -54,12 +59,17 @@ public interface IPlatform extends ITrack {
     IPlatform customConverter(IConverter converter);
 
     /**
+     * 获取当前的转换器
+     * @return
+     */
+    IConverter getConverter();
+    /**
      * 把事件对应对应转换后生成对应的事件模型
      * @param eventName
      * @param params
      * @return
      */
-    TrackEvent convert(String eventName, Map<String, Object> params);
+    EventModel convert(String eventName, Map<String, Object> params);
 
     /**
      * 把事件对应对应转换后生成对应的事件模型
@@ -67,11 +77,11 @@ public interface IPlatform extends ITrack {
      * @param json
      * @return
      */
-    TrackEvent convert(String eventName, String json);
+    EventModel convert(String eventName, String json);
 
     /**
      * 平台标识码
      * @return
      */
-    int platformCode();
+    @Target.PlatformCode int platformCode();
 }

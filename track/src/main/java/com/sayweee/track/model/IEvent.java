@@ -1,5 +1,7 @@
 package com.sayweee.track.model;
 
+import com.sayweee.track.convert.IConvert;
+
 /**
  * Author:  winds
  * Email:   heardown@163.com
@@ -22,11 +24,9 @@ package com.sayweee.track.model;
  * 会员页面
  * Me页面
  */
-public interface IEvent {
+public interface IEvent extends IConvert {
 
     String EVENT_VIEW = "event_view";
-
-
 
     //af标准事件
     String EVENT_LEVEL_ACHIEVED = "af_level_achieved";
@@ -59,5 +59,4 @@ public interface IEvent {
     String EVENT_AD_CLICK = "af_ad_click";
     String EVENT_AD_VIEW = "af_ad_view";
 
-    String mapping(String event);
 }

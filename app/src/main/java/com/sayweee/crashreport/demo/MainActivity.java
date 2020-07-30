@@ -1,6 +1,5 @@
 package com.sayweee.crashreport.demo;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sayweee.track.TrackConfig;
 import com.sayweee.track.TrackManager;
+import com.sayweee.track.callback.InterceptorCallback;
+import com.sayweee.track.core.IPlatform;
+import com.sayweee.track.interceptor.Interceptor;
 
 import java.util.Map;
 
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
     }
 
     public void click(View view) {
@@ -30,10 +33,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void config() {
-        TrackConfig config = new TrackConfig.Builder().appsFlyer(new TrackConfig.AppsFlyerConfig("", true))
-                .facebook(new TrackConfig.FacebookConfig()).build();
+
+    /**
+     * 初始化
+     */
+    private void init() {
+        TrackConfig config = new TrackConfig.Builder().appsFlyer(new TrackConfig.AppsFlyerConfig(""))
+                .build();
         TrackManager.get().init(getApplication(), config);
+
+
+    }
+
+    private void updateConfig() {
+        TrackConfig.AppsFlyerConfig config = new TrackConfig.AppsFlyerConfig();
+        config.setEnable(false);
+        TrackManager.get().updateConfig(config);
     }
 
     private void track(String eventName) {

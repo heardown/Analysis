@@ -5,6 +5,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.sayweee.logger.LogAdapter;
+import com.sayweee.logger.Logger;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,8 +27,6 @@ public class TrackLogAdapter implements LogAdapter {
     protected static final String FORMAT = "yyyy-MM-dd HH:mm:ss"; //设置时间的格式
     protected static final String FORMAT_NAME = "yyyy-MM-dd"; //设置时间的格式
 
-    private String name;
-    private boolean enable;
     private ExecutorService executor;
 
     public static LogAdapter getInstance() {
@@ -42,25 +41,20 @@ public class TrackLogAdapter implements LogAdapter {
         executor = Executors.newSingleThreadExecutor();
     }
 
-    public void config(String name, boolean enable) {
-        this.name = name;
-        this.enable = enable;
-    }
-
     @Override
     public boolean isLoggable(int priority, String tag) {
-        return enable;
+        return Logger.sWritable;
     }
 
     @Override
     public void log(int priority, final String tag, final String extraTag, final String message, final String extraMessage) {
         Log.println(priority, TAG, message == null ? "" : message);
-//        executor.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                write(createFile(Logger.sPath, extraTag), Logger.sPath + "/" + extraTag, TextUtils.isEmpty(tag) ? TAG : tag, message, extraMessage);
-//            }
-//        });
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                write(createFile(Logger.sPath, extraTag), Logger.sPath + "/" + extraTag, TextUtils.isEmpty(tag) ? TAG : tag, message, extraMessage);
+            }
+        });
     }
 
     protected String createFile(String path, String namePrefix) {
@@ -88,7 +82,7 @@ public class TrackLogAdapter implements LogAdapter {
 
                 }
             }
-            if (file.exists()) {
+            if (file != null && file.exists()) {
                 return file.getAbsolutePath();
             }
         } catch (Exception e) {

@@ -1,6 +1,6 @@
 package com.sayweee.track.interceptor;
 
-import com.sayweee.track.platform.IPlatform;
+import com.sayweee.track.core.IPlatform;
 import com.sayweee.track.callback.InterceptorCallback;
 
 import java.util.Map;
@@ -14,11 +14,11 @@ import java.util.Map;
 public class DefaultInterceptor implements Interceptor {
 
     @Override
-    public void process(IPlatform platform, String eventName, Map<String, Object> params, boolean convert, InterceptorCallback callback) {
+    public void process(IPlatform platform, int type, String eventName, Map<String, Object> params, boolean convert, InterceptorCallback callback) {
         if(convert) {
-            platform.convert(eventName, params).track();
+            platform.convert(eventName, params).withType(type).track();
         }else{
-            platform.track(eventName, params);
+            platform.track(type, eventName, params);
         }
     }
 
