@@ -11,5 +11,8 @@ import com.sayweee.track.platform.BaseConverter;
  */
 public class FacebookConverter extends BaseConverter {
 
-
+    public FacebookConverter() {
+        iEventConvert = new FBEvent();
+        iParameterConvert = new FBParameter();
+    }
 }

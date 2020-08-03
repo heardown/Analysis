@@ -1,8 +1,7 @@
 package com.sayweee.track.platform.af;
 
-
-
 import com.sayweee.track.platform.BaseConverter;
+
 
 
 /**
@@ -13,9 +12,9 @@ import com.sayweee.track.platform.BaseConverter;
  */
 public class AppsFlyerConverter extends BaseConverter {
 
-    AppsFlyerEvent appsFlyerEvent;
     public AppsFlyerConverter() {
-        appsFlyerEvent = new AppsFlyerEvent();
+        iEventConvert = new AppsFlyerEvent();
+        iParameterConvert = new AppsFlyerParameter();
     }
 
 }

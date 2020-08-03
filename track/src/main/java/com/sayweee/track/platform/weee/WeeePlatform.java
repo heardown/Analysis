@@ -13,7 +13,6 @@ import java.util.Map;
  */
 public class WeeePlatform extends BasePlatform {
 
-
     public static WeeePlatform get() {
         return Builder.platform;
     }

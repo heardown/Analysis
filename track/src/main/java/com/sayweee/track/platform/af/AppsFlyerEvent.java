@@ -1,7 +1,7 @@
 package com.sayweee.track.platform.af;
 
 import com.appsflyer.AFInAppEventType;
-import com.sayweee.track.model.IEvent;
+import com.sayweee.track.platform.BaseEventIml;
 
 /**
  * Author:  winds
@@ -9,74 +9,44 @@ import com.sayweee.track.model.IEvent;
  * Date:    2020/7/20.
  * Desc:
  */
-public class AppsFlyerEvent implements IEvent {
+public class AppsFlyerEvent extends BaseEventIml {
+
+    public AppsFlyerEvent() {
+        super();
+    }
 
     @Override
-    public String mapping(String event) {
-        if (event != null) {
-            switch (event) {
-                case EVENT_LEVEL_ACHIEVED:
-                    return AFInAppEventType.LEVEL_ACHIEVED;
-                case EVENT_ADD_PAYMENT_INFO:
-                    return AFInAppEventType.ADD_PAYMENT_INFO;
-                case EVENT_ADD_TO_CART:
-                    return AFInAppEventType.ADD_TO_CART;
-                case EVENT_ADD_TO_WISH_LIST:
-                    return AFInAppEventType.ADD_TO_WISH_LIST;
-                case EVENT_COMPLETE_REGISTRATION:
-                    return AFInAppEventType.COMPLETE_REGISTRATION;
-                case EVENT_TUTORIAL_COMPLETION:
-                    return AFInAppEventType.TUTORIAL_COMPLETION;
-                case EVENT_INITIATED_CHECKOUT:
-                    return AFInAppEventType.INITIATED_CHECKOUT;
-                case EVENT_PURCHASE:
-                    return AFInAppEventType.PURCHASE;
-                case EVENT_RATE:
-                    return AFInAppEventType.RATE;
-                case EVENT_SEARCH:
-                    return AFInAppEventType.SEARCH;
-                case EVENT_SPENT_CREDIT:
-                    return AFInAppEventType.SPENT_CREDIT;
-                case EVENT_ACHIEVEMENT_UNLOCKED:
-                    return AFInAppEventType.ACHIEVEMENT_UNLOCKED;
-                case EVENT_CONTENT_VIEW:
-                    return AFInAppEventType.CONTENT_VIEW;
-                case EVENT_TRAVEL_BOOKING:
-                    return AFInAppEventType.TRAVEL_BOOKING;
-                case EVENT_SHARE:
-                    return AFInAppEventType.SHARE;
-                case EVENT_INVITE:
-                    return AFInAppEventType.INVITE;
-                case EVENT_LOGIN:
-                    return AFInAppEventType.LOGIN;
-                case EVENT_RE_ENGAGE:
-                    return AFInAppEventType.RE_ENGAGE;
-                case EVENT_UPDATE:
-                    return AFInAppEventType.UPDATE;
-                case EVENT_OPENED_FROM_PUSH_NOTIFICATION:
-                    return AFInAppEventType.OPENED_FROM_PUSH_NOTIFICATION;
-                case EVENT_LOCATION_CHANGED:
-                    return AFInAppEventType.LOCATION_CHANGED;
-                case EVENT_LOCATION_COORDINATES:
-                    return AFInAppEventType.LOCATION_COORDINATES;
-                case EVENT_ORDER_ID:
-                    return AFInAppEventType.ORDER_ID;
-                case EVENT_CUSTOMER_SEGMENT:
-                    return AFInAppEventType.CUSTOMER_SEGMENT;
-                case EVENT_LIST_VIEW:
-                    return AFInAppEventType.LIST_VIEW;
-                case EVENT_SUBSCRIBE:
-                    return AFInAppEventType.SUBSCRIBE;
-                case EVENT_START_TRIAL:
-                    return AFInAppEventType.START_TRIAL;
-                case EVENT_AD_CLICK:
-                    return AFInAppEventType.AD_CLICK;
-                case EVENT_AD_VIEW:
-                    return AFInAppEventType.AD_VIEW;
-                default:
-                    return event;
-            }
-        }
-        return null;
+    public void buildMappingEvent() {
+        super.buildMappingEvent();
+        addMappingEvent(LEVEL_ACHIEVED, AFInAppEventType.LEVEL_ACHIEVED);
+        addMappingEvent(ADD_PAYMENT_INFO, AFInAppEventType.ADD_PAYMENT_INFO);
+        addMappingEvent(ADD_TO_CART, AFInAppEventType.ADD_TO_CART);
+        addMappingEvent(ADD_TO_WISH_LIST, AFInAppEventType.ADD_TO_WISH_LIST);
+        addMappingEvent(COMPLETE_REGISTRATION, AFInAppEventType.COMPLETE_REGISTRATION);
+        addMappingEvent(TUTORIAL_COMPLETION, AFInAppEventType.TUTORIAL_COMPLETION);
+        addMappingEvent(INITIATED_CHECKOUT, AFInAppEventType.INITIATED_CHECKOUT);
+        addMappingEvent(PURCHASE, AFInAppEventType.PURCHASE);
+        addMappingEvent(RATE, AFInAppEventType.RATE);
+        addMappingEvent(SEARCH, AFInAppEventType.SEARCH);
+        addMappingEvent(SPENT_CREDIT, AFInAppEventType.SPENT_CREDIT);
+        addMappingEvent(ACHIEVEMENT_UNLOCKED, AFInAppEventType.ACHIEVEMENT_UNLOCKED);
+        addMappingEvent(CONTENT_VIEW, AFInAppEventType.CONTENT_VIEW);
+        addMappingEvent(TRAVEL_BOOKING, AFInAppEventType.TRAVEL_BOOKING);
+        addMappingEvent(SHARE, AFInAppEventType.SHARE);
+        addMappingEvent(INVITE, AFInAppEventType.INVITE);
+        addMappingEvent(LOGIN, AFInAppEventType.LOGIN);
+        addMappingEvent(RE_ENGAGE, AFInAppEventType.RE_ENGAGE);
+        addMappingEvent(UPDATE, AFInAppEventType.UPDATE);
+        addMappingEvent(OPENED_FROM_PUSH_NOTIFICATION, AFInAppEventType.OPENED_FROM_PUSH_NOTIFICATION);
+        addMappingEvent(LOCATION_CHANGED, AFInAppEventType.LOCATION_CHANGED);
+        addMappingEvent(LOCATION_COORDINATES, AFInAppEventType.LOCATION_COORDINATES);
+        addMappingEvent(ORDER_ID, AFInAppEventType.ORDER_ID);
+        addMappingEvent(CUSTOMER_SEGMENT, AFInAppEventType.CUSTOMER_SEGMENT);
+        addMappingEvent(LIST_VIEW, AFInAppEventType.LIST_VIEW);
+        addMappingEvent(SUBSCRIBE, AFInAppEventType.SUBSCRIBE);
+        addMappingEvent(START_TRIAL, AFInAppEventType.START_TRIAL);
+        addMappingEvent(AD_CLICK, AFInAppEventType.AD_CLICK);
+        addMappingEvent(AD_VIEW, AFInAppEventType.AD_VIEW);
     }
+
 }

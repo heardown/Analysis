@@ -10,5 +10,8 @@ import com.sayweee.track.platform.BaseConverter;
  */
 public class GoogleConverter extends BaseConverter {
 
-
+    public GoogleConverter() {
+        iEventConvert = new GAEvent();
+        iParameterConvert = new GAParameter();
+    }
 }
