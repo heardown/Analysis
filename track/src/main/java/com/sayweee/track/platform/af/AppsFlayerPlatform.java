@@ -19,6 +19,7 @@ import java.util.Map;
  * Desc:
  */
 public class AppsFlayerPlatform extends BasePlatform {
+    protected AppsFlyerConversionListener listener;
 
     public static AppsFlayerPlatform get() {
         return Builder.platform;
@@ -38,6 +39,7 @@ public class AppsFlayerPlatform extends BasePlatform {
         if (config instanceof TrackConfig.AppsFlyerConfig) {
             TrackConfig.AppsFlyerConfig current = (TrackConfig.AppsFlyerConfig) config;
             init(current.appsFlyerKey);
+            listener = current.listener;
         }
         return this;
     }
@@ -103,21 +105,33 @@ public class AppsFlayerPlatform extends BasePlatform {
             @Override
             public void onConversionDataSuccess(Map<String, Object> map) {
                 log("onConversionDataSuccess", map);
+                if(listener != null) {
+                    listener.onConversionDataSuccess(map);
+                }
             }
 
             @Override
             public void onConversionDataFail(String s) {
                 log("onConversionDataFail", s);
+                if(listener != null) {
+                    listener.onConversionDataFail(s);
+                }
             }
 
             @Override
             public void onAppOpenAttribution(Map<String, String> map) {
                 log("onAppOpenAttribution", map);
+                if(listener != null) {
+                    listener.onAppOpenAttribution(map);
+                }
             }
 
             @Override
             public void onAttributionFailure(String s) {
                 log("onAttributionFailure", s);
+                if(listener != null) {
+                    listener.onAttributionFailure(s);
+                }
             }
         }, context);
         startTrack();

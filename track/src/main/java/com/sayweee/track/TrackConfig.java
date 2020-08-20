@@ -1,5 +1,6 @@
 package com.sayweee.track;
 
+import com.appsflyer.AppsFlyerConversionListener;
 import com.sayweee.track.core.PlatformConfig;
 import com.sayweee.track.model.Target;
 
@@ -121,7 +122,7 @@ public class TrackConfig {
 
     public static class AppsFlyerConfig extends PlatformConfig{
         public String appsFlyerKey;
-
+        public AppsFlyerConversionListener listener;
         public AppsFlyerConfig() {
             this.logFileName = "track/af";
         }
@@ -129,6 +130,11 @@ public class TrackConfig {
         public AppsFlyerConfig(String appsFlyerKey) {
             this();
             this.appsFlyerKey = appsFlyerKey;
+        }
+
+        public AppsFlyerConfig setAppsFlyerConversionListener(AppsFlyerConversionListener listener) {
+            this.listener = listener;
+            return this;
         }
 
         @Override
