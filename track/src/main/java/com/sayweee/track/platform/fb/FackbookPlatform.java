@@ -75,7 +75,7 @@ public class FackbookPlatform extends BasePlatform {
     }
 
     private void execTrack(String eventName, Bundle bundle) {
-        if(enable && logger != null) {
+        if(isEnable() && logger != null) {
             log(eventName, bundle);
             logger.logEvent(eventName, bundle);
         }

@@ -49,7 +49,7 @@ uploadArchives {
                 repository(url: mavenLocal().getUrl())
                 snapshotRepository(url: mavenLocal().getUrl())
                 pom.project {
-                    version '0.0.1-SNAPSHOT'
+                    version '0.0.2-SNAPSHOT'
                     artifactId 'track'
                     groupId GROUP_ID
                     packaging TYPE
@@ -63,7 +63,7 @@ uploadArchives {
                     authentication(userName: config.NEXUS_USERNAME, password: config.NEXUS_PASSWORD)
                 }
                 pom.project {
-                    version '0.0.1-SNAPSHOT'
+                    version '0.0.2-SNAPSHOT'
                     artifactId 'track'
                     groupId GROUP_ID
                     packaging TYPE

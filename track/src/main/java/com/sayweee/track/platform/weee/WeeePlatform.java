@@ -53,6 +53,8 @@ public class WeeePlatform extends BasePlatform {
 
 
     private void execTrack(String eventName, Map<String, Object> params) {
+        if(isEnable()) {
 
+        }
     }
 }

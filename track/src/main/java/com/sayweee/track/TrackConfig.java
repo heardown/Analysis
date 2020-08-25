@@ -1,6 +1,7 @@
 package com.sayweee.track;
 
 import com.appsflyer.AppsFlyerConversionListener;
+import com.sayweee.logger.LogAdapter;
 import com.sayweee.track.core.PlatformConfig;
 import com.sayweee.track.model.Target;
 
@@ -13,7 +14,9 @@ import com.sayweee.track.model.Target;
 public class TrackConfig {
     private String logFileName;
     private boolean logEnable;
+    private boolean enable;
     private String packageName;
+    private LogAdapter adapter;
 
     //appsFlyer
     private PlatformConfig appsFlyerConfig;
@@ -25,9 +28,11 @@ public class TrackConfig {
     private PlatformConfig weeeConfig;
 
     public TrackConfig(Builder builder) {
+        this.enable = builder.enable;
         this.logEnable = builder.logEnable;
         this.logFileName = builder.logFileName;
         this.packageName = builder.packageName;
+        this.adapter = builder.adapter;
 
         this.appsFlyerConfig = builder.appsFlyerConfig;
         this.googleConfig = builder.googleConfig;
@@ -43,9 +48,18 @@ public class TrackConfig {
         return logEnable;
     }
 
+    public boolean isEnable() {
+        return enable;
+    }
+
     public String getPackageName() {
         return packageName;
     }
+
+    public LogAdapter getLogAdapter() {
+        return adapter;
+    }
+
 
     public PlatformConfig getAppsFlyerConfig() {
         return appsFlyerConfig;
@@ -65,9 +79,10 @@ public class TrackConfig {
 
     public static class Builder {
         private String logFileName;
-        private boolean logEnable;
+        private boolean enable = true; //默认true
+        private boolean logEnable = true;
         private String packageName;
-
+        private LogAdapter adapter;
         //appsFlyer
         private AppsFlyerConfig appsFlyerConfig;
         //facebook
@@ -85,9 +100,18 @@ public class TrackConfig {
             return this;
         }
 
+        public Builder setEnable(boolean enable){
+            this.enable = enable;
+            return this;
+        }
         public Builder setLogEnable(boolean enable){
             this.logEnable = enable;
             return this;
+        }
+
+        public Builder logAdapter(LogAdapter adapter) {
+             this.adapter = adapter;
+             return this;
         }
 
         public Builder setPackageName(String packageName) {

@@ -4,10 +4,12 @@ import android.content.Context;
 
 import androidx.annotation.CallSuper;
 
+import com.sayweee.logger.LogAdapter;
 import com.sayweee.logger.Logger;
 import com.sayweee.track.convert.IConverter;
 import com.sayweee.track.core.IPlatform;
 import com.sayweee.track.core.PlatformConfig;
+import com.sayweee.track.core.TrackManagerIml;
 import com.sayweee.track.model.EventModel;
 import com.sayweee.track.model.Target;
 import com.sayweee.track.utils.Utils;
@@ -26,6 +28,7 @@ public abstract class BasePlatform implements IPlatform {
     protected String logFileName;
     protected boolean logEnable;
     protected IConverter converter;
+    protected LogAdapter adapter;
 
     protected BasePlatform(){
         converter = new BaseConverter();
@@ -107,7 +110,16 @@ public abstract class BasePlatform implements IPlatform {
         track(eventName, Utils.convertMap(json));
     }
 
-    public void log(Object... args) {
-        Logger.f(logFileName).enable(logEnable).json(getClass().getSimpleName(), args);
+    public boolean isEnable() {
+        return enable && TrackManagerIml.sInstance.isEnable();
     }
+
+    public void log(Object... args) {
+        if(TrackManagerIml.sInstance.isLogEnable()) {
+            Logger.f(logFileName).enable(logEnable)
+                    .adapter(TrackManagerIml.sInstance.getLogAdapter())
+                    .json(getClass().getSimpleName(), args);
+        }
+    }
+
 }

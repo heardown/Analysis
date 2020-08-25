@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.ArrayMap;
 
+import com.sayweee.logger.LogAdapter;
 import com.sayweee.track.TrackConfig;
 import com.sayweee.track.TrackManager;
 import com.sayweee.track.interceptor.DefaultInterceptor;
@@ -38,7 +39,7 @@ public class TrackManagerIml extends TrackManager {
     private Context context;
     private InterceptorService service;
     private HashMap<String, String> extendMap;
-
+    private TrackConfig config;
     private ActivityLifecycleImpl lifecycleIml;
 
     public static TrackManagerIml sInstance = new TrackManagerIml();
@@ -159,6 +160,8 @@ public class TrackManagerIml extends TrackManager {
 
     private void create(TrackConfig config) {
         if (config != null) {
+            this.config = config;
+
             if (config.getAppsFlyerConfig() != null) {
                 platforms.add(AppsFlayerPlatform.get().attach(context).init(config.getAppsFlyerConfig()));
             }
@@ -291,6 +294,18 @@ public class TrackManagerIml extends TrackManager {
             return lifecycleIml.getTopActivity();
         }
         return null;
+    }
+
+    public boolean isLogEnable() {
+        return config != null && config.isLogEnable();
+    }
+
+    public boolean isEnable() {
+        return config != null && config.isEnable();
+    }
+
+    public LogAdapter getLogAdapter() {
+        return config != null ? config.getLogAdapter() : null;
     }
 
 }

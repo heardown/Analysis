@@ -75,7 +75,7 @@ public class GooglePlatform extends BasePlatform {
     }
 
     private void execTrack(String eventName, Bundle bundle) {
-        if (enable) {
+        if (isEnable()) {
             log(eventName, bundle);
             FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle);
         }

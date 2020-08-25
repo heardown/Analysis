@@ -79,7 +79,7 @@ public class AppsFlayerPlatform extends BasePlatform {
 
 
     private void execTrack(final String eventName, final Map<String, Object> params) {
-        if (enable) {
+        if (isEnable()) {
             log(eventName, params);
             AppsFlyerLib.getInstance().trackEvent(context,
                     eventName,
