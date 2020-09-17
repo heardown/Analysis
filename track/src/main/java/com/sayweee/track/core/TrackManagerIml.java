@@ -283,6 +283,8 @@ public class TrackManagerIml extends TrackManager {
                 e.printStackTrace();
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
+            } catch (Exception e){
+                e.printStackTrace();
             }
             return null;
         }
