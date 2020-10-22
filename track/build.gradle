@@ -24,7 +24,7 @@ android {
 
 dependencies {
     api fileTree(dir: "libs", include: ["*.jar"])
-    compileOnly 'com.appsflyer:af-android-sdk:5.4.0'
+    compileOnly 'com.appsflyer:af-android-sdk:6.0.0'
     compileOnly 'com.google.firebase:firebase-analytics:17.4.4'
     compileOnly 'com.facebook.android:facebook-android-sdk:7.1.0'
 
@@ -63,7 +63,7 @@ uploadArchives {
                     authentication(userName: config.NEXUS_USERNAME, password: config.NEXUS_PASSWORD)
                 }
                 pom.project {
-                    version '0.0.2-SNAPSHOT'
+                    version '0.0.3'
                     artifactId 'track'
                     groupId GROUP_ID
                     packaging TYPE

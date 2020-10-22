@@ -1,8 +1,10 @@
 package com.sayweee.track.platform.af;
 
+import androidx.annotation.NonNull;
+
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
-import com.appsflyer.AppsFlyerTrackingRequestListener;
+import com.appsflyer.attribution.AppsFlyerRequestListener;
 import com.sayweee.track.TrackConfig;
 import com.sayweee.track.core.PlatformConfig;
 import com.sayweee.track.model.Target;
@@ -51,12 +53,12 @@ public class AppsFlayerPlatform extends BasePlatform {
 
     @Override
     public void startTrack() {
-        AppsFlyerLib.getInstance().startTracking(context);
+        AppsFlyerLib.getInstance().start(context);
     }
 
     @Override
     public void endTrack() {
-        AppsFlyerLib.getInstance().stopTracking(true, context);
+        AppsFlyerLib.getInstance().stop(true, context);
     }
 
     @Override
@@ -81,16 +83,17 @@ public class AppsFlayerPlatform extends BasePlatform {
     private void execTrack(final String eventName, final Map<String, Object> params) {
         if (isEnable()) {
             log(eventName, params);
-            AppsFlyerLib.getInstance().trackEvent(context,
+            AppsFlyerLib.getInstance().logEvent(context,
                     eventName,
                     params,
-                    new AppsFlyerTrackingRequestListener() {
+                    new AppsFlyerRequestListener() {
                         @Override
-                        public void onTrackingRequestSuccess() {
+                        public void onSuccess() {
+
                         }
 
                         @Override
-                        public void onTrackingRequestFailure(String s) {
+                        public void onError(int i, @NonNull String s) {
                             log("onTrackingRequestFailure", eventName, params, s);
                         }
                     });
