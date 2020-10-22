@@ -45,17 +45,7 @@ uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
-            if(USE_MAVEN_LOCAL.toBoolean()) {
-                repository(url: mavenLocal().getUrl())
-                snapshotRepository(url: mavenLocal().getUrl())
-                pom.project {
-                    version '0.0.2-SNAPSHOT'
-                    artifactId 'track'
-                    groupId GROUP_ID
-                    packaging TYPE
-                    description DESCRIPTION
-                }
-            }else{
+            if (UPLOAD_TRACK_MAVEN.toBoolean()) {
                 snapshotRepository(url: config.MAVEN_REPO_SNAPSHOT_URL) {
                     authentication(userName: config.NEXUS_USERNAME, password: config.NEXUS_PASSWORD)
                 }
@@ -64,6 +54,16 @@ uploadArchives {
                 }
                 pom.project {
                     version '0.0.3'
+                    artifactId 'track'
+                    groupId GROUP_ID
+                    packaging TYPE
+                    description DESCRIPTION
+                }
+            } else {
+                repository(url: mavenLocal().getUrl())
+                snapshotRepository(url: mavenLocal().getUrl())
+                pom.project {
+                    version '0.0.2-SNAPSHOT'
                     artifactId 'track'
                     groupId GROUP_ID
                     packaging TYPE

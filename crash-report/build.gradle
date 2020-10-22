@@ -40,17 +40,7 @@ uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
-            if(USE_MAVEN_LOCAL.toBoolean()) {
-                repository(url: mavenLocal().getUrl())
-                snapshotRepository(url: mavenLocal().getUrl())
-                pom.project {
-                    version '0.0.1-SNAPSHOT'
-                    artifactId 'crash-report'
-                    groupId GROUP_ID
-                    packaging TYPE
-                    description DESCRIPTION
-                }
-            }else{
+            if (UPLOAD_CRASH_REPORT_MAVEN.toBoolean()) {
                 snapshotRepository(url: config.MAVEN_REPO_SNAPSHOT_URL) {
                     authentication(userName: config.NEXUS_USERNAME, password: config.NEXUS_PASSWORD)
                 }
@@ -59,6 +49,16 @@ uploadArchives {
                 }
                 pom.project {
                     version '0.0.1'
+                    artifactId 'crash-report'
+                    groupId GROUP_ID
+                    packaging TYPE
+                    description DESCRIPTION
+                }
+            } else {
+                repository(url: mavenLocal().getUrl())
+                snapshotRepository(url: mavenLocal().getUrl())
+                pom.project {
+                    version '0.0.1-SNAPSHOT'
                     artifactId 'crash-report'
                     groupId GROUP_ID
                     packaging TYPE
