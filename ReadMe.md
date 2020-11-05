@@ -3,7 +3,7 @@
 ## crash-report
 ### use guide
 + 引入方式
-    > 1. 先在根项目build.gradle文件中添加仓库 `` maven { url  "http://maven.sayweee.net:8081/repository/maven-releases/" } ``
+    > 1. 先在根项目build.gradle文件中添加仓库 `` maven { url  "http://.../repository/maven-releases/" } ``
     > 2. 在使用的module中添加依赖 implementation 'com.sayweee.libs:crash-report:0.0.1'   0.0.1是指版本，建议用最新版本
     > 3. 在清单文件中注册mateData，暂时仅支持bugly，key为report_key_bugly，value为申请的bugly的appId
 + 使用方式
@@ -14,7 +14,7 @@
 ## track
 ### use guide
 + 引入方式
-    > 1. 先在根项目build.gradle文件中添加仓库 `` maven { url  "http://maven.sayweee.net:8081/repository/maven-releases/" } ``
+    > 1. 先在根项目build.gradle文件中添加仓库 `` maven { url  "http://.../repository/maven-releases/" } ``
     > 2. 在使用的module中添加依赖 `` implementation 'com.sayweee.libs:track:0.0.1' ``  0.0.1是指版本，建议用最新版本
 + 使用方式      
     > 1. 在Application中初始化TrackManager，设置要启用的平台及初始化参数，根据需要设置拦截
